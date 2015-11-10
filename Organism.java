@@ -14,6 +14,11 @@ import java.util.*;
 		this.x = 0;
 		this.y = 0;
 	 }
+	 public Organism(int xs, int ys)
+	 {
+		 this.x = xs;
+		 this.y = ys;
+	 }
 	 
 	 public void setX(int x){
 		this.x = x;

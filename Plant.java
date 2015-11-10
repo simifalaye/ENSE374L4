@@ -5,6 +5,6 @@
  */
 import java.util.*;
   
- public class Animal extends Organism{
+ public class Plant extends Organism{
 	 
  }
