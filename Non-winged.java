@@ -6,7 +6,7 @@
 import java.util.*;
   
  public class Non-winged extends Animal{
-	private int  maxTravelDistance
+	private int  maxTravelDistance;
 	
 	public Non-winged()
 	{

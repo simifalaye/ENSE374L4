@@ -6,5 +6,9 @@
 import java.util.*;
   
  public class Bluejay extends Winged{
-	 static private
+	 private String food[] = {"Caterpillar", "Trees_Shrubs", "Grasshopper"};
+	 public Bluejay()
+	 {
+		 this.setOrganism("Bluejay");
+	 }
  }
