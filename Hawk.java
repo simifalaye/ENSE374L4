@@ -11,4 +11,10 @@ import java.util.*;
 	 {
 		 this.setOrganism("Hawk");
 	 }
+	 public Hawk(int xs, int ys)
+	 {
+		 this.setX(xs);
+		 this.setY(ys);
+		 this.setOrganism("Hawk");
+	 }
  }

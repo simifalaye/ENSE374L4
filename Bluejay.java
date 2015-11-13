@@ -11,4 +11,10 @@ import java.util.*;
 	 {
 		 this.setOrganism("Bluejay");
 	 }
+	 public Bluejay(int xs, int ys)
+	 {
+		 this.setX(xs);
+		 this.setY(ys);
+		 this.setOrganism("Bluejay");
+	 }
  }

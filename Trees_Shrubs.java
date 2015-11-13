@@ -8,4 +8,11 @@ public class Trees_Shrubs extends Plant{
 	{
 		 this.setOrganism("Trees_Shrubs");
 	}
+	
+	public Trees_Shrubs(int xs, int ys)
+	{
+		this.setX(xs);
+		this.setY(ys);
+		this.setOrganism("Trees_Shrubs");
+	}
 }

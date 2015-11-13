@@ -5,10 +5,17 @@
  */
 import java.util.*;
   
- public class Deer extends Non-winged{
+ public class Deer extends Non_winged{
 	 private String food[] = {"Grass", "Trees_Shrubs"};
 	 public Deer()
 	 {
+		 this.setOrganism("Deer");
+	 }
+	 
+	 public Deer(int xs, int ys)
+	 {
+		 this.setX(xs);
+		 this.setY(ys);
 		 this.setOrganism("Deer");
 	 }
  }

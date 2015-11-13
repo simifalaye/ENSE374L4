@@ -9,17 +9,7 @@ import java.util.*;
 	 private int x;
 	 private int y;
 	 private String organism;
-	 
-	 public Organism()
-	 {
-		this.x = 0;
-		this.y = 0;
-	 }
-	 public Organism(int xs, int ys)
-	 {
-		 this.x = xs;
-		 this.y = ys;
-	 }
+	 private String ID;
 	 
 	 public void setX(int x){
 		this.x = x;
@@ -45,5 +35,15 @@ import java.util.*;
 	 public String getOrganism()
 	 {
 		 return this.organism;
+	 }
+	 
+	 public void setID(String id)
+	 {
+		 this.ID = id;
+	 }
+	 
+	 public String getID()
+	 {
+		 return this.ID;
 	 }
  }

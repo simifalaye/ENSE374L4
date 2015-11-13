@@ -5,10 +5,17 @@
  */
 import java.util.*;
   
- public class Fox extends Non-winged{
+ public class Fox extends Non_winged{
 	 private String food[] = {"Rabbit", "Squirrel"};
 	 public Fox()
 	 {
+		 this.setOrganism("Fox");
+	 }
+	 
+	 public Fox(int xs, int ys)
+	 {
+		 this.setX(xs);
+		 this.setY(ys);
 		 this.setOrganism("Fox");
 	 }
  }

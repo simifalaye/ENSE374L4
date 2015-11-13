@@ -8,4 +8,11 @@ public class Grass extends Plant{
 	{
 		 this.setOrganism("Grass");
 	}
+	
+	public Grass(int xs, int ys)
+	 {
+		 this.setX(xs);
+		 this.setY(ys);
+		 this.setOrganism("Grass");
+	 }
 }

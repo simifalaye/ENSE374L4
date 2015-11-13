@@ -11,4 +11,11 @@ import java.util.*;
 	 {
 		 this.setOrganism("Grasshopper");
 	 }
+	 
+	 public Grasshopper(int xs, int ys)
+	 {
+		 this.setX(xs);
+		 this.setY(ys);
+		 this.setOrganism("Grasshopper");
+	 }
  }
