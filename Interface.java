@@ -1,6 +1,6 @@
 /**
  * Info:
- * 2015-10-20
+ * 20stch-10-20
  * @author Similoluwa Falaye
  */
 import java.util.*;
@@ -11,9 +11,11 @@ import java.util.Random;
 
  public class Interface
  {
-	public int MAX_ROWS = 50;
+	public int MAX_ROWS = 150;
 	public int MAX_COLUMNS = 150;
-	public int xpos = 0, ypos = 0;
+	public String open = ".";
+	public int xpos = 0, ypos = 0, stch = 15;
+	public String bjch = "~", hkch = "^", mech = "n", rtch = ">", slch = "\"", wfch = "w", drch = "?", fxch = "f", crch = ";", grch = "#", gsch = "x", tsch = "T";
 	private String[][] map = new String[MAX_ROWS][MAX_COLUMNS];
 
 	public Interface()
@@ -22,7 +24,7 @@ import java.util.Random;
 		{
 			for(int j = 0; j < MAX_COLUMNS; j++)
 			{
-				this.map[i][j] = ".";
+				this.map[i][j] = open;
 			}
 		}
 	}
@@ -61,56 +63,35 @@ import java.util.Random;
 		}
 		System.out.print("+\n");
 	}
-	////////////////////////////////////////////////
+	/******************************************************************************/
 	public static void main(String[] args)
 	{
+		
 		Interface world = new Interface();
 		
-		Grass[] grass = new Grass[10];
-		world.spawnGrass(world, grass, 10);
+		world.spawnOrganism(world, "Trees_Shrubs", 500);
+		world.spawnOrganism(world, "Grass", 500);
+		world.spawnOrganism(world, "Hawk", 250);
+		world.spawnOrganism(world, "Bluejay", 250);
+		world.spawnOrganism(world, "Mouse", 100);
+		world.spawnOrganism(world, "Rabbit", 100);
+		world.spawnOrganism(world, "Squirrel", 100);
+		world.spawnOrganism(world, "Wolf", 100);
+		world.spawnOrganism(world, "Deer", 100);
+		world.spawnOrganism(world, "Fox", 100);
+		world.spawnOrganism(world, "Caterpillar", 250);
+		world.spawnOrganism(world, "Grasshopper", 250);
 		
-		Trees_Shrubs[] ts = new Trees_Shrubs[10];
-		world.spawnTree_Shrubs(world, ts, 10);
-		
-		Hawk[] hawks = new Hawk[10];
-		world.spawnHawk(world, hawks, 10);
-		
-		Bluejay[] jays = new Bluejay[15];
-		world.spawnJay(world, jays, 15);
-		
-		Mouse[] mice = new Mouse[10];
-		world.spawnMice(world, mice, 10);
-		
-		Rabbit[] rab = new Rabbit[10];
-		world.spawnRabbit(world, rab, 10);
-		
-		Squirrel[] squir = new Squirrel[10];
-		world.spawnSquirrel(world, squir, 10);
-		
-		Wolf[] wolf = new Wolf[10];
-		world.spawnWolf(world, wolf, 10);
-		
-		Deer[] deer = new Deer[10];
-		world.spawnDeer(world, deer, 10);
-		
-		Fox[] fox = new Fox[10];
-		world.spawnFox(world, fox, 10);
-		
-		Caterpillar[] cate = new Caterpillar[10];
-		world.spawnCaterpillar(world, cate, 10);
-		
-		Grasshopper[] gh = new Grasshopper[10];
-		world.spawnGrasshopper(world, gh, 10);
 		world.printWorld();
 	}
-	////////////////////////////////////////////////
+	/******************************************************************************/
 	public void findNextOpen(Interface w)
 	{
 		for(int i = 0; i < MAX_ROWS; i++)
 		{
 			for(int j = 0; j < MAX_COLUMNS; j++)
 			{
-				if(w.map[i][j] == ".")
+				if(w.map[i][j] == open)
 				{
 					xpos = i;
 					ypos = j;
@@ -121,375 +102,91 @@ import java.util.Random;
 		xpos = 0;
 		ypos = 0;
 	}
-	public void spawnHawk(Interface w, Hawk h[], int amount)
+	public int getRandom(int max)
 	{
 		Random rand = new Random();
+		return rand.nextInt((max - 1) + 1) + 0;
+	}
+	public boolean checkOOB(int x, int y)
+	{
+		if(x >= MAX_ROWS)
+		{
+			return true;
+		}
+		else if(x < 0)
+		{
+			return true;
+		}
+		else if(y >= MAX_COLUMNS)
+		{
+			return true;
+		}
+		else if(y < 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	public void spawnOrganism(Interface w, String animal, int amount)
+	{
 		int x = 0, y = 0;
 		int check = 0, check2 = 0;
+		Organism[] A = new Organism[amount];
+		switch(animal)
+		{
+			case "Hawk": A = new Hawk[amount]; break;
+			case "Bluejay": A = new Bluejay[amount]; break;
+			case "Mouse": A = new Mouse[amount]; break;
+			case "Rabbit": A = new Rabbit[amount]; break;
+			case "Squirrel": A = new Squirrel[amount]; break;
+			case "Wolf": A = new Wolf[amount]; break;
+			case "Deer": A = new Deer[amount]; break;
+			case "Fox": A = new Fox[amount]; break;
+			case "Caterpillar": A = new Caterpillar[amount]; break;
+			case "Grasshopper": A = new Grasshopper[amount]; break;
+			case "Grass": A = new Grass[amount]; break;
+			case "Trees_Shrubs": A = new Trees_Shrubs[amount]; break;
+			default: return;
+		}
 		for(int i = 0; i < amount; i++)
 		{
 			check = 0;
 			check2 = 0;
 			while(check == 0)
 			{
-				x = rand.nextInt((49 - 0) + 1) + 0;
-				y = rand.nextInt((149 - 0) + 1) + 0;
+				x = getRandom(MAX_COLUMNS);
+				y = getRandom(MAX_COLUMNS);
 				check2++;
-				if(check2 > 15)
+				if(check2 > stch)
 				{
 					findNextOpen(w);
 					x = xpos;
 					y = ypos;
 				}
-				if(w.getMapPos(x, y) == ".")
+				if(w.getMapPos(x, y) == open)
 				{
-					w.setMapPos("^", x, y);
-					h[i] = new Hawk(x, y);
-					h[i].setID(h[i].getOrganism() + i);
+					switch(animal)
+					{
+						case "Hawk": w.setMapPos(hkch, x, y); A[i] = new Hawk(x, y); break;
+						case "Bluejay": w.setMapPos(bjch, x, y); A[i] = new Bluejay(x, y); break;
+						case "Mouse": w.setMapPos(mech, x, y); A[i] = new Mouse(x, y); break;
+						case "Rabbit": w.setMapPos(rtch, x, y); A[i] = new Rabbit(x, y); break;
+						case "Squirrel": w.setMapPos(slch, x, y); A[i] = new Squirrel(x, y); break;
+						case "Wolf": w.setMapPos(wfch, x, y); A[i] = new Wolf(x, y); break;
+						case "Deer": w.setMapPos(drch, x, y); A[i] = new Deer(x, y); break;
+						case "Fox": w.setMapPos(fxch, x, y); A[i] = new Fox(x, y); break;
+						case "Caterpillar": w.setMapPos(crch, x, y); A[i] = new Caterpillar(x, y); break;
+						case "Grasshopper": w.setMapPos(grch, x, y); A[i] = new Grasshopper(x, y); break;
+						case "Grass": w.setMapPos(gsch, x, y); A[i] = new Grass(x, y); break;
+						case "Trees_Shrubs": w.setMapPos(tsch, x, y); A[i] = new Trees_Shrubs(x, y); break;
+						default: return;
+					}
+					A[i].setID(A[i].getOrganism() + i);
 					check = 1;
 				}
 			}
 		}
 	}
-	
-	public void spawnJay(Interface w, Bluejay j[], int amount)
-	{
-		Random rand = new Random();
-		int x = 0, y = 0;
-		int check = 0, check2 = 0;
-		for(int i = 0; i < amount; i++)
-		{
-			check = 0;
-			check2 = 0;
-			while(check == 0)
-			{
-				x = rand.nextInt((49 - 0) + 1) + 0;
-				y = rand.nextInt((149 - 0) + 1) + 0;
-				check2++;
-				if(check2 > 15)
-				{
-					findNextOpen(w);
-					x = xpos;
-					y = ypos;
-				}
-				if(w.getMapPos(x, y) == ".")
-				{
-					w.setMapPos("~", x, y);
-					j[i] = new Bluejay(x, y);
-					j[i].setID(j[i].getOrganism() + i);
-					check = 1;
-				}
-			}
-		}
-	}
-	
-	public void spawnMice(Interface w, Mouse m[], int amount)
-	{
-		Random rand = new Random();
-		int x = 0, y = 0;
-		int check = 0, check2 = 0;
-		for(int i = 0; i < amount; i++)
-		{
-			check = 0;
-			check2 = 0;
-			while(check == 0)
-			{
-				x = rand.nextInt((49 - 0) + 1) + 0;
-				y = rand.nextInt((149 - 0) + 1) + 0;
-				check2++;
-				if(check2 > 15)
-				{
-					findNextOpen(w);
-					x = xpos;
-					y = ypos;
-				}
-				if(w.getMapPos(x, y) == ".")
-				{
-					w.setMapPos("n", x, y);
-					m[i] = new Mouse(x, y);
-					m[i].setID(m[i].getOrganism() + i);
-					check = 1;
-				}
-			}
-		}
-	}
-	
-	public void spawnRabbit(Interface w, Rabbit r[], int amount)
-	{
-		Random rand = new Random();
-		int x = 0, y = 0;
-		int check = 0, check2 = 0;
-		for(int i = 0; i < amount; i++)
-		{
-			check = 0;
-			check2 = 0;
-			while(check == 0)
-			{
-				x = rand.nextInt((49 - 0) + 1) + 0;
-				y = rand.nextInt((149 - 0) + 1) + 0;
-				check2++;
-				if(check2 > 15)
-				{
-					findNextOpen(w);
-					x = xpos;
-					y = ypos;
-				}
-				if(w.getMapPos(x, y) == ".")
-				{
-					w.setMapPos(">", x, y);
-					r[i] = new Rabbit(x, y);
-					r[i].setID(r[i].getOrganism() + i);
-					check = 1;
-				}
-			}
-		}
-	}
-	
-	public void spawnSquirrel(Interface w, Squirrel s[], int amount)
-	{
-		Random rand = new Random();
-		int x = 0, y = 0;
-		int check = 0, check2 = 0;
-		for(int i = 0; i < amount; i++)
-		{
-			check = 0;
-			check2 = 0;
-			while(check == 0)
-			{
-				x = rand.nextInt((49 - 0) + 1) + 0;
-				y = rand.nextInt((149 - 0) + 1) + 0;
-				check2++;
-				if(check2 > 15)
-				{
-					findNextOpen(w);
-					x = xpos;
-					y = ypos;
-				}
-				if(w.getMapPos(x, y) == ".")
-				{
-					w.setMapPos("\"", x, y);
-					s[i] = new Squirrel(x, y);
-					s[i].setID(s[i].getOrganism() + i);
-					check = 1;
-				}
-			}
-		}
-	}
-	
-	public void spawnWolf(Interface w, Wolf wo[], int amount)
-	{
-		Random rand = new Random();
-		int x = 0, y = 0;
-		int check = 0, check2 = 0;
-		for(int i = 0; i < amount; i++)
-		{
-			check = 0;
-			check2 = 0;
-			while(check == 0)
-			{
-				x = rand.nextInt((49 - 0) + 1) + 0;
-				y = rand.nextInt((149 - 0) + 1) + 0;
-				check2++;
-				if(check2 > 15)
-				{
-					findNextOpen(w);
-					x = xpos;
-					y = ypos;
-				}
-				if(w.getMapPos(x, y) == ".")
-				{
-					w.setMapPos("w", x, y);
-					wo[i] = new Wolf(x, y);
-					wo[i].setID(wo[i].getOrganism() + i);
-					check = 1;
-				}
-			}
-		}
-	}
-	
-	public void spawnDeer(Interface w, Deer d[], int amount)
-	{
-		Random rand = new Random();
-		int x = 0, y = 0;
-		int check = 0, check2 = 0;
-		for(int i = 0; i < amount; i++)
-		{
-			check = 0;
-			check2 = 0;
-			while(check == 0)
-			{
-				x = rand.nextInt((49 - 0) + 1) + 0;
-				y = rand.nextInt((149 - 0) + 1) + 0;
-				check2++;
-				if(check2 > 15)
-				{
-					findNextOpen(w);
-					x = xpos;
-					y = ypos;
-				}
-				if(w.getMapPos(x, y) == ".")
-				{
-					w.setMapPos("?", x, y);
-					d[i] = new Deer(x, y);
-					d[i].setID(d[i].getOrganism() + i);
-					check = 1;
-				}
-			}
-		}
-	}
-	
-	public void spawnFox(Interface w, Fox f[], int amount)
-	{
-		Random rand = new Random();
-		int x = 0, y = 0;
-		int check = 0, check2 = 0;
-		for(int i = 0; i < amount; i++)
-		{
-			check = 0;
-			check2 = 0;
-			while(check == 0)
-			{
-				x = rand.nextInt((49 - 0) + 1) + 0;
-				y = rand.nextInt((149 - 0) + 1) + 0;
-				check2++;
-				if(check2 > 15)
-				{
-					findNextOpen(w);
-					x = xpos;
-					y = ypos;
-				}
-				if(w.getMapPos(x, y) == ".")
-				{
-					w.setMapPos("?", x, y);
-					f[i] = new Fox(x, y);
-					f[i].setID(f[i].getOrganism() + i);
-					check = 1;
-				}
-			}
-		}
-	}
-	
-	public void spawnCaterpillar(Interface w, Caterpillar c[], int amount)
-	{
-		Random rand = new Random();
-		int x = 0, y = 0;
-		int check = 0, check2 = 0;
-		for(int i = 0; i < amount; i++)
-		{
-			check = 0;
-			check2 = 0;
-			while(check == 0)
-			{
-				x = rand.nextInt((49 - 0) + 1) + 0;
-				y = rand.nextInt((149 - 0) + 1) + 0;
-				check2++;
-				if(check2 > 15)
-				{
-					findNextOpen(w);
-					x = xpos;
-					y = ypos;
-				}
-				if(w.getMapPos(x, y) == ".")
-				{
-					w.setMapPos(";", x, y);
-					c[i] = new Caterpillar(x, y);
-					c[i].setID(c[i].getOrganism() + i);
-					check = 1;
-				}
-			}
-		}
-	}
-	
-	public void spawnGrasshopper(Interface w, Grasshopper g[], int amount)
-	{
-		Random rand = new Random();
-		int x = 0, y = 0;
-		int check = 0, check2 = 0;
-		for(int i = 0; i < amount; i++)
-		{
-			check = 0;
-			check2 = 0;
-			while(check == 0)
-			{
-				x = rand.nextInt((49 - 0) + 1) + 0;
-				y = rand.nextInt((149 - 0) + 1) + 0;
-				check2++;
-				if(check2 > 15)
-				{
-					findNextOpen(w);
-					x = xpos;
-					y = ypos;
-				}
-				if(w.getMapPos(x, y) == ".")
-				{
-					w.setMapPos("#", x, y);
-					g[i] = new Grasshopper(x, y);
-					g[i].setID(g[i].getOrganism() + i);
-					check = 1;
-				}
-			}
-		}
-	}
-	
-	public void spawnGrass(Interface w, Grass g[], int amount)
-	{
-		Random rand = new Random();
-		int x = 0, y = 0;
-		int check = 0, check2 = 0;
-		for(int i = 0; i < amount; i++)
-		{
-			check = 0;
-			check2 = 0;
-			while(check == 0)
-			{
-				x = rand.nextInt((49 - 0) + 1) + 0;
-				y = rand.nextInt((149 - 0) + 1) + 0;
-				check2++;
-				if(check2 > 15)
-				{
-					findNextOpen(w);
-					x = xpos;
-					y = ypos;
-				}
-				if(w.getMapPos(x, y) == ".")
-				{
-					w.setMapPos("x", x, y);
-					g[i] = new Grass(x, y);
-					g[i].setID(g[i].getOrganism() + i);
-					check = 1;
-				}
-			}
-		}
-	}
-	
-	public void spawnTree_Shrubs(Interface w, Trees_Shrubs t[], int amount)
-	{
-		Random rand = new Random();
-		int x = 0, y = 0;
-		int check = 0, check2 = 0;
-		for(int i = 0; i < amount; i++)
-		{
-			check = 0;
-			check2 = 0;
-			while(check == 0)
-			{
-				x = rand.nextInt((49 - 0) + 1) + 0;
-				y = rand.nextInt((149 - 0) + 1) + 0;
-				check2++;
-				if(check2 > 15)
-				{
-					findNextOpen(w);
-					x = xpos;
-					y = ypos;
-				}
-				if(w.getMapPos(x, y) == ".")
-				{
-					w.setMapPos("T", x, y);
-					t[i] = new Trees_Shrubs(x, y);
-					t[i].setID(t[i].getOrganism() + i);
-					check = 1;
-				}
-			}
-		}
-	}
- }
