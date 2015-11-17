@@ -11,8 +11,9 @@ import java.util.Random;
 
  public class Interface
  {
-	int MAX_ROWS = 50;
-	int MAX_COLUMNS = 150;
+	public int MAX_ROWS = 50;
+	public int MAX_COLUMNS = 150;
+	public int xpos = 0, ypos = 0;
 	private String[][] map = new String[MAX_ROWS][MAX_COLUMNS];
 
 	public Interface()
@@ -38,11 +39,12 @@ import java.util.Random;
 	
 	public void printWorld()
 	{
-		for(int i = 0; i < MAX_COLUMNS + 2; i++)
+		System.out.print("+");
+		for(int i = 0; i < MAX_COLUMNS; i++)
 		{
 			System.out.print("-");
 		}
-		System.out.print("\n");
+		System.out.print("+\n");
 		for(int i = 0; i < MAX_ROWS; i++)
 		{
 			System.out.print("|");
@@ -52,11 +54,12 @@ import java.util.Random;
 			}
 			System.out.print("|\n");
 		}
-		for(int i = 0; i < MAX_COLUMNS + 2; i++)
+		System.out.print("+");
+		for(int i = 0; i < MAX_COLUMNS; i++)
 		{
 			System.out.print("-");
 		}
-		System.out.print("\n");
+		System.out.print("+\n");
 	}
 	////////////////////////////////////////////////
 	public static void main(String[] args)
@@ -101,18 +104,43 @@ import java.util.Random;
 		world.printWorld();
 	}
 	////////////////////////////////////////////////
+	public void findNextOpen(Interface w)
+	{
+		for(int i = 0; i < MAX_ROWS; i++)
+		{
+			for(int j = 0; j < MAX_COLUMNS; j++)
+			{
+				if(w.map[i][j] == ".")
+				{
+					xpos = i;
+					ypos = j;
+					return;
+				}
+			}
+		}
+		xpos = 0;
+		ypos = 0;
+	}
 	public void spawnHawk(Interface w, Hawk h[], int amount)
 	{
 		Random rand = new Random();
 		int x = 0, y = 0;
-		int check = 0;
+		int check = 0, check2 = 0;
 		for(int i = 0; i < amount; i++)
 		{
 			check = 0;
+			check2 = 0;
 			while(check == 0)
 			{
 				x = rand.nextInt((49 - 0) + 1) + 0;
 				y = rand.nextInt((149 - 0) + 1) + 0;
+				check2++;
+				if(check2 > 15)
+				{
+					findNextOpen(w);
+					x = xpos;
+					y = ypos;
+				}
 				if(w.getMapPos(x, y) == ".")
 				{
 					w.setMapPos("^", x, y);
@@ -128,14 +156,22 @@ import java.util.Random;
 	{
 		Random rand = new Random();
 		int x = 0, y = 0;
-		int check = 0;
+		int check = 0, check2 = 0;
 		for(int i = 0; i < amount; i++)
 		{
 			check = 0;
+			check2 = 0;
 			while(check == 0)
 			{
 				x = rand.nextInt((49 - 0) + 1) + 0;
 				y = rand.nextInt((149 - 0) + 1) + 0;
+				check2++;
+				if(check2 > 15)
+				{
+					findNextOpen(w);
+					x = xpos;
+					y = ypos;
+				}
 				if(w.getMapPos(x, y) == ".")
 				{
 					w.setMapPos("~", x, y);
@@ -151,14 +187,22 @@ import java.util.Random;
 	{
 		Random rand = new Random();
 		int x = 0, y = 0;
-		int check = 0;
+		int check = 0, check2 = 0;
 		for(int i = 0; i < amount; i++)
 		{
 			check = 0;
+			check2 = 0;
 			while(check == 0)
 			{
 				x = rand.nextInt((49 - 0) + 1) + 0;
 				y = rand.nextInt((149 - 0) + 1) + 0;
+				check2++;
+				if(check2 > 15)
+				{
+					findNextOpen(w);
+					x = xpos;
+					y = ypos;
+				}
 				if(w.getMapPos(x, y) == ".")
 				{
 					w.setMapPos("n", x, y);
@@ -174,14 +218,22 @@ import java.util.Random;
 	{
 		Random rand = new Random();
 		int x = 0, y = 0;
-		int check = 0;
+		int check = 0, check2 = 0;
 		for(int i = 0; i < amount; i++)
 		{
 			check = 0;
+			check2 = 0;
 			while(check == 0)
 			{
 				x = rand.nextInt((49 - 0) + 1) + 0;
 				y = rand.nextInt((149 - 0) + 1) + 0;
+				check2++;
+				if(check2 > 15)
+				{
+					findNextOpen(w);
+					x = xpos;
+					y = ypos;
+				}
 				if(w.getMapPos(x, y) == ".")
 				{
 					w.setMapPos(">", x, y);
@@ -197,14 +249,22 @@ import java.util.Random;
 	{
 		Random rand = new Random();
 		int x = 0, y = 0;
-		int check = 0;
+		int check = 0, check2 = 0;
 		for(int i = 0; i < amount; i++)
 		{
 			check = 0;
+			check2 = 0;
 			while(check == 0)
 			{
 				x = rand.nextInt((49 - 0) + 1) + 0;
 				y = rand.nextInt((149 - 0) + 1) + 0;
+				check2++;
+				if(check2 > 15)
+				{
+					findNextOpen(w);
+					x = xpos;
+					y = ypos;
+				}
 				if(w.getMapPos(x, y) == ".")
 				{
 					w.setMapPos("\"", x, y);
@@ -220,17 +280,25 @@ import java.util.Random;
 	{
 		Random rand = new Random();
 		int x = 0, y = 0;
-		int check = 0;
+		int check = 0, check2 = 0;
 		for(int i = 0; i < amount; i++)
 		{
 			check = 0;
+			check2 = 0;
 			while(check == 0)
 			{
 				x = rand.nextInt((49 - 0) + 1) + 0;
 				y = rand.nextInt((149 - 0) + 1) + 0;
-				if(w.getMapPos(x, y) == "+")
+				check2++;
+				if(check2 > 15)
 				{
-					w.setMapPos("+", x, y);
+					findNextOpen(w);
+					x = xpos;
+					y = ypos;
+				}
+				if(w.getMapPos(x, y) == ".")
+				{
+					w.setMapPos("w", x, y);
 					wo[i] = new Wolf(x, y);
 					wo[i].setID(wo[i].getOrganism() + i);
 					check = 1;
@@ -243,14 +311,22 @@ import java.util.Random;
 	{
 		Random rand = new Random();
 		int x = 0, y = 0;
-		int check = 0;
+		int check = 0, check2 = 0;
 		for(int i = 0; i < amount; i++)
 		{
 			check = 0;
+			check2 = 0;
 			while(check == 0)
 			{
 				x = rand.nextInt((49 - 0) + 1) + 0;
 				y = rand.nextInt((149 - 0) + 1) + 0;
+				check2++;
+				if(check2 > 15)
+				{
+					findNextOpen(w);
+					x = xpos;
+					y = ypos;
+				}
 				if(w.getMapPos(x, y) == ".")
 				{
 					w.setMapPos("?", x, y);
@@ -266,14 +342,22 @@ import java.util.Random;
 	{
 		Random rand = new Random();
 		int x = 0, y = 0;
-		int check = 0;
+		int check = 0, check2 = 0;
 		for(int i = 0; i < amount; i++)
 		{
 			check = 0;
+			check2 = 0;
 			while(check == 0)
 			{
 				x = rand.nextInt((49 - 0) + 1) + 0;
 				y = rand.nextInt((149 - 0) + 1) + 0;
+				check2++;
+				if(check2 > 15)
+				{
+					findNextOpen(w);
+					x = xpos;
+					y = ypos;
+				}
 				if(w.getMapPos(x, y) == ".")
 				{
 					w.setMapPos("?", x, y);
@@ -289,14 +373,22 @@ import java.util.Random;
 	{
 		Random rand = new Random();
 		int x = 0, y = 0;
-		int check = 0;
+		int check = 0, check2 = 0;
 		for(int i = 0; i < amount; i++)
 		{
 			check = 0;
+			check2 = 0;
 			while(check == 0)
 			{
 				x = rand.nextInt((49 - 0) + 1) + 0;
 				y = rand.nextInt((149 - 0) + 1) + 0;
+				check2++;
+				if(check2 > 15)
+				{
+					findNextOpen(w);
+					x = xpos;
+					y = ypos;
+				}
 				if(w.getMapPos(x, y) == ".")
 				{
 					w.setMapPos(";", x, y);
@@ -312,14 +404,22 @@ import java.util.Random;
 	{
 		Random rand = new Random();
 		int x = 0, y = 0;
-		int check = 0;
+		int check = 0, check2 = 0;
 		for(int i = 0; i < amount; i++)
 		{
 			check = 0;
+			check2 = 0;
 			while(check == 0)
 			{
 				x = rand.nextInt((49 - 0) + 1) + 0;
 				y = rand.nextInt((149 - 0) + 1) + 0;
+				check2++;
+				if(check2 > 15)
+				{
+					findNextOpen(w);
+					x = xpos;
+					y = ypos;
+				}
 				if(w.getMapPos(x, y) == ".")
 				{
 					w.setMapPos("#", x, y);
@@ -335,14 +435,22 @@ import java.util.Random;
 	{
 		Random rand = new Random();
 		int x = 0, y = 0;
-		int check = 0;
+		int check = 0, check2 = 0;
 		for(int i = 0; i < amount; i++)
 		{
 			check = 0;
+			check2 = 0;
 			while(check == 0)
 			{
 				x = rand.nextInt((49 - 0) + 1) + 0;
 				y = rand.nextInt((149 - 0) + 1) + 0;
+				check2++;
+				if(check2 > 15)
+				{
+					findNextOpen(w);
+					x = xpos;
+					y = ypos;
+				}
 				if(w.getMapPos(x, y) == ".")
 				{
 					w.setMapPos("x", x, y);
@@ -358,14 +466,22 @@ import java.util.Random;
 	{
 		Random rand = new Random();
 		int x = 0, y = 0;
-		int check = 0;
+		int check = 0, check2 = 0;
 		for(int i = 0; i < amount; i++)
 		{
 			check = 0;
+			check2 = 0;
 			while(check == 0)
 			{
 				x = rand.nextInt((49 - 0) + 1) + 0;
 				y = rand.nextInt((149 - 0) + 1) + 0;
+				check2++;
+				if(check2 > 15)
+				{
+					findNextOpen(w);
+					x = xpos;
+					y = ypos;
+				}
 				if(w.getMapPos(x, y) == ".")
 				{
 					w.setMapPos("T", x, y);
