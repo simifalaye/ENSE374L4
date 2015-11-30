@@ -20,9 +20,9 @@ import java.util.Random;
 	private Organism[][] map = new Organism[MAX_ROWS][MAX_COLUMNS];
 	int tsamnt = 500, gsamnt = 500, hkamnt = 250, bjamnt = 250, meamnt = 100, rtamnt = 100;
 	int slamnt = 100, wfamnt = 100, dramnt = 100, fxamnt = 100, cramnt = 250, gramnt = 250;
-	private int xpos = 0, ypos = 0;
+	private int xp = 0, yp = 0;
 	private int[] chkalldir = {99, 99, 99, 99};
-	private int countdir dir = 0;
+	private int countdir = 0;
 
 	/*public Interface()
 	{
@@ -147,7 +147,7 @@ import java.util.Random;
 	public static void main(String[] args)
 	{
 		
-		Interface world = new Interface();
+		Interface w = new Interface();
 		Trees_Shrubs[] T = new Trees_Shrubs[w.tsamnt];
 		Grass[] A = new Grass[w.gsamnt];
 		Hawk[] H = new Hawk[w.hkamnt];
@@ -161,30 +161,30 @@ import java.util.Random;
 		Caterpillar[] C = new Caterpillar[w.cramnt];
 		Grasshopper[] G = new Grasshopper[w.gramnt];
 		
-		world.spawnOrganism(T, world, "Trees_Shrubs", w.tsamnt);
-		world.spawnOrganism(A, world, "Grass", w.gsamnt);
-		world.spawnOrganism(H, world, "Hawk", w.hkamnt);
-		world.spawnOrganism(B, world, "Bluejay", w.bjamnt);
-		world.spawnOrganism(M, world, "Mouse", w.meamnt);
-		world.spawnOrganism(R, world, "Rabbit", w.rtamnt);
-		world.spawnOrganism(S, world, "Squirrel", w.slamnt);
-		world.spawnOrganism(W, world, "Wolf", w.wfamnt);
-		world.spawnOrganism(D, world, "Deer", w.dramnt);
-		world.spawnOrganism(F, world, "Fox", w.fxamnt);
-		world.spawnOrganism(C, world, "Caterpillar", w.cramnt);
-		world.spawnOrganism(G, world, "Grasshopper", w.gramnt);
+		w.spawnOrganism(T, "Trees_Shrubs", w.tsamnt);
+		w.spawnOrganism(A, "Grass", w.gsamnt);
+		w.spawnOrganism(H, "Hawk", w.hkamnt);
+		w.spawnOrganism(B, "Bluejay", w.bjamnt);
+		w.spawnOrganism(M, "Mouse", w.meamnt);
+		w.spawnOrganism(R, "Rabbit", w.rtamnt);
+		w.spawnOrganism(S, "Squirrel", w.slamnt);
+		w.spawnOrganism(W, "Wolf", w.wfamnt);
+		w.spawnOrganism(D, "Deer", w.dramnt);
+		w.spawnOrganism(F, "Fox", w.fxamnt);
+		w.spawnOrganism(C, "Caterpillar", w.cramnt);
+		w.spawnOrganism(G, "Grasshopper", w.gramnt);
 		
-		world.printLegend();
-		world.printWorld();
+		w.printLegend();
+		w.printWorld();
 	}
 	/******************************************************************************/
-	public void findNextOpen(Interface w)
+	public void findNextOpen()
 	{
 		for(int i = 0; i < MAX_ROWS; i++)
 		{
 			for(int j = 0; j < MAX_COLUMNS; j++)
 			{
-				if(w.map[i][j] == null)
+				if(this.map[i][j] == null)
 				{
 					xpos = i;
 					ypos = j;
@@ -204,21 +204,43 @@ import java.util.Random;
 	{
 		int d = getRandom(4);
 		if(d == 0)
-			xpos--;
+		{
+			xp = x - 1;
+			yp = y;
+		}
 		else if(d == 1)
-			xpos++;
+		{
+			xp = x + 1;
+			yp = y;
+		}
 		else if(d == 2)
-			ypos--;
+		{
+			yp = y - 1;
+			xp = x;
+		}
 		else if(d == 3)
-			ypos++;
+		{
+			yp =  y + 1;
+			xp = x;
+		}
 		return d;
 	}
-	public boolean checkalldir(int d)
+	public boolean cantMove(int d)
 	{
-		for(int i = 0; i < 4, i++)
+		for(int i = 0; i < 4; i++)
 		{
-			if(chkalldir[i] == )
+			if(chkalldir[i] == d)
+			{
+				return false;
+			}
 		}
+		chkalldir[countdir] = d;
+		countdir++;
+		if(countdir == 4)
+		{
+			return true;
+		}
+		return false;
 	}
 	public boolean checkOOB(int x, int y)
 	{
@@ -243,7 +265,7 @@ import java.util.Random;
 			return false;
 		}
 	}
-	public void spawnOrganism(Organism[] A, Interface w, String animal, int amount)
+	public void spawnOrganism(Organism[] A, String animal, int amount)
 	{
 		int x = 0, y = 0;
 		int check = 0, check2 = 0;
@@ -273,11 +295,11 @@ import java.util.Random;
 				check2++;
 				if(check2 > stch)
 				{
-					findNextOpen(w);
+					findNextOpen();
 					x = xpos;
 					y = ypos;
 				}
-				if(w.getMapPos(x, y) == null)
+				if(this.getMapPos(x, y) == null)
 				{
 					switch(animal)
 					{
@@ -294,7 +316,7 @@ import java.util.Random;
 						case "Grass":A[i] = new Grass(x, y); break;
 						case "Trees_Shrubs":A[i] = new Trees_Shrubs(x, y); break;
 					}
-					w.setMapPos(A[i], x, y);
+					this.setMapPos(A[i], x, y);
 					A[i].setID(A[i].getOrganism() + i);
 					check = 1;
 				}
@@ -303,15 +325,33 @@ import java.util.Random;
 	}
 	public void moveAnimal(Organism[] A, int amount)
 	{
-		int cantmove;
+		int x, y, d, err;
 		for(int i = 0; i < amount; i++)
 		{
+			err = 0;
 			x = A[i].getX();
 			y = A[i].getY();
-			cantmove = 1;
-			while(map[x][y] != null && cantmove <= 4)
+			d = direction(x, y);
+			cantMove(d);
+			while(this.map[x][y] != null || this.checkOOB(x, y))
 			{
-				
+				d = direction(x, y);
+				if(cantMove(d))
+				{
+					err = 1;
+					break;
+				}
+			}
+			if(err == 0)
+			{
+				A[i].setX(xp);
+				A[i].setY(yp);
+				setMapPos(A[i], xp, yp);
+				for(int j = 0; j < 4; j++)
+				{
+					chkalldir[j] = 99;
+				}
+				countdir = 0;
 			}
 		}
 	}
