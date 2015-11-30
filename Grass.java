@@ -7,6 +7,7 @@ public class Grass extends Plant{
 	public Grass()
 	{
 		 this.setOrganism("Grass");
+		 this.setFood("", "", "", "");
 	}
 	
 	public Grass(int xs, int ys)
@@ -14,5 +15,6 @@ public class Grass extends Plant{
 		 this.setX(xs);
 		 this.setY(ys);
 		 this.setOrganism("Grass");
+		 this.setFood("", "", "", "");
 	 }
 }

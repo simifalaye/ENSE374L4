@@ -6,15 +6,16 @@
 import java.util.*;
   
  public class Bluejay extends Winged{
-	 private String food[] = {"Caterpillar", "Trees_Shrubs", "Grasshopper"};
 	 public Bluejay()
 	 {
 		 this.setOrganism("Bluejay");
+		 this.setFood("Caterpillar", "Trees_Shrubs", "Grasshopper", "");
 	 }
 	 public Bluejay(int xs, int ys)
 	 {
 		 this.setX(xs);
 		 this.setY(ys);
 		 this.setOrganism("Bluejay");
+		 this.setFood("Caterpillar", "Trees_Shrubs", "Grasshopper", "");
 	 }
  }

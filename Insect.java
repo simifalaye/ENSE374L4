@@ -6,15 +6,8 @@
 import java.util.*;
   
  public class Insect extends Animal{
-	private int  maxTravelDistance;
-	
 	public Insect()
 	{
-		this.maxTravelDistance = 1;
+		this.setMaxTravelDistance(1);
 	}
-	
-	public int getMaxTravelDistance()
-	{
-		return this.maxTravelDistance;
-	} 
  }

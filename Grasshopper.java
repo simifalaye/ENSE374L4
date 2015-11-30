@@ -6,10 +6,10 @@
 import java.util.*;
   
  public class Grasshopper extends Insect{
-	 private String food[] = {"Grass"};
 	 public Grasshopper()
 	 {
 		 this.setOrganism("Grasshopper");
+		 this.setFood("Grass", "", "", "");
 	 }
 	 
 	 public Grasshopper(int xs, int ys)
@@ -17,5 +17,6 @@ import java.util.*;
 		 this.setX(xs);
 		 this.setY(ys);
 		 this.setOrganism("Grasshopper");
+		 this.setFood("Grass", "", "", "");
 	 }
  }

@@ -7,6 +7,7 @@ public class Trees_Shrubs extends Plant{
 	public Trees_Shrubs()
 	{
 		 this.setOrganism("Trees_Shrubs");
+		 this.setFood("", "", "", "");
 	}
 	
 	public Trees_Shrubs(int xs, int ys)
@@ -14,5 +15,6 @@ public class Trees_Shrubs extends Plant{
 		this.setX(xs);
 		this.setY(ys);
 		this.setOrganism("Trees_Shrubs");
+		this.setFood("", "", "", "");
 	}
 }

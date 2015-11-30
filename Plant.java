@@ -9,6 +9,7 @@ import java.util.*;
 	private int  maxTravelDistance;
 	public Plant()
 	{
-		this.maxTravelDistance = 0;
+		 this.setTimeLeft(365);
+		 this.setDistanceTraveled(0);
 	}
  }

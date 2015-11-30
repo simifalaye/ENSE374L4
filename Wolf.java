@@ -6,10 +6,10 @@
 import java.util.*;
   
  public class Wolf extends Non_winged{
-	 private String food[] = {"Rabbit", "Deer"};
 	 public Wolf()
 	 {
 		 this.setOrganism("Wolf");
+		 this.setFood("Rabbit", "Deer", "", "");
 	 }
 	 
 	 public Wolf(int xs, int ys)
@@ -17,5 +17,6 @@ import java.util.*;
 		 this.setX(xs);
 		 this.setY(ys);
 		 this.setOrganism("Wolf");
+		 this.setFood("Rabbit", "Deer", "", "");
 	 }
  }
