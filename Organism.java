@@ -12,7 +12,7 @@ import java.util.*;
 	 private String ID;
 	 private int MAX_FOOD = 4;
 	 private int MAX_TIMELEFT = 2;
-	 String[] food = new String[MAX_FOOD];
+	 private String[] food = new String[MAX_FOOD];
 	 private int maxTravelDistance;
 	 private int timeLeft;
 	 private int distanceTraveled;

@@ -198,6 +198,7 @@ import java.util.Random;
 		
 		w.printWorld();
 		System.out.println("Proceed to next day (n)");
+		System.out.println("Zoom (z)");
 		System.out.println("Quit (q)");
 		System.out.print("Choice: ");
 		String choice = indata.next();
@@ -208,6 +209,13 @@ import java.util.Random;
 				w.moveAnimals(H, B, M, R, S, W, D, F, C, G);
 				w.printWorld();
 			}
+			else if(choice.equals("z") || choice.equals("z"))
+			{
+				System.out.print("Enter map position \"x y\" (0 <= x,y < 150): ");
+				int zx = indata.nextInt();
+				int zy = indata.nextInt();
+				w.zoom(zx, zy);
+			}
 			else if(choice.equals("q") || choice.equals("Q"))
 			{
 				break;
@@ -216,8 +224,8 @@ import java.util.Random;
 			{
 				System.out.println("Incorrect choice. Try again: ");
 			}
-			w.newday = true;
 			System.out.println("Proceed to next day (n)");
+			System.out.println("Zoom (z)");
 			System.out.println("Quit (q)");
 			System.out.print("Choice: ");
 			choice = indata.next();
@@ -389,7 +397,7 @@ import java.util.Random;
 			err = 0;
 			x = A[i].getX();
 			y = A[i].getY();
-			if(A[i].getTimeLeft() < 0 && A[i].getX() != this.grave)
+			if(A[i].getTimeLeft() < 0 && A[i].getIsDead() == false)
 			{
 				A[i].setIsDead(true);
 				A[i].setX(this.grave);
@@ -424,6 +432,7 @@ import java.util.Random;
 					A[i].setY(this.yp);
 					this.setMapPos((Organism)A[i], xp, yp);
 					this.setMapPos(null, x, y);
+					A[i].setDistanceTraveled(A[i].getDistanceTraveled() + 1);
 					if(this.newday == true)
 					{
 						A[i].setTimeLeft(A[i].getTimeLeft() - 1);
@@ -435,6 +444,7 @@ import java.util.Random;
 					A[i].setY(this.yp);
 					this.setMapPos((Organism)A[i], xp, yp);
 					this.setMapPos(null, x, y);
+					A[i].setDistanceTraveled(A[i].getDistanceTraveled() + 1);
 					A[i].setTimeLeft(A[i].getMaxTL());
 				}
 				else if(err == 0 && this.ate == 2)
@@ -454,11 +464,14 @@ import java.util.Random;
 	}
 	public void moveAnimals(Hawk[] H, Bluejay[] B, Mouse[] M, Rabbit[] R, Squirrel[] S, Wolf[] W, Deer[] D, Fox[] F, Caterpillar[] C, Grasshopper[] G)
 	{
+		this.newday = true;
 		for(int i = 0; i < H[0].getMaxTravelDistance(); i++)
 		{
 			moveAnimal(H, hkamnt);
 			moveAnimal(B, bjamnt);
+			this.newday = false;
 		}
+		this.newday = true;
 		for(int i = 0; i < M[0].getMaxTravelDistance(); i++)
 		{
 			moveAnimal(M, meamnt);
@@ -467,13 +480,15 @@ import java.util.Random;
 			moveAnimal(W, wfamnt);
 			moveAnimal(D, dramnt);
 			moveAnimal(F, fxamnt);
+			this.newday = false;
 		}
+		this.newday = true;
 		for(int i = 0; i < C[0].getMaxTravelDistance(); i++)
 		{
 			moveAnimal(C, cramnt);
 			moveAnimal(G, gramnt);
+			this.newday = false;
 		}
-		this.newday = false;
 	}
 	public boolean eatIt(Organism A, int x, int y)
 	{
@@ -496,5 +511,18 @@ import java.util.Random;
 			return true;
 		}
 		return false;
+	}
+	public void zoom(int x, int y)
+	{
+		if(this.map[x][y] != null)
+		{
+			System.out.println("\nID: " + this.map[x][y].getID());
+			System.out.println("Days left till starvation: " + this.map[x][y].getTimeLeft());
+			System.out.println("Total distance travelled: " + this.map[x][y].getDistanceTraveled() + "\n");
+		}
+		else
+		{
+			System.out.println("\nEmpty\n");
+		}
 	}
  }
