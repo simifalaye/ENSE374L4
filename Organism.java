@@ -10,11 +10,13 @@ import java.util.*;
 	 private int y;
 	 private String organism;
 	 private String ID;
-	 private int MAX_FOOD;
+	 private int MAX_FOOD = 4;
+	 private int MAX_TIMELEFT = 2;
 	 String[] food = new String[MAX_FOOD];
 	 private int maxTravelDistance;
 	 private int timeLeft;
 	 private int distanceTraveled;
+	 private boolean isdead = false;
 	 
 	 public void setX(int x){
 		this.x = x;
@@ -93,11 +95,23 @@ import java.util.*;
 	 {
 		 for(int i = 0; i < MAX_FOOD; i++)
 		 {
-			 if(food[i] == 0)
+			 if(food[i] == o)
 			 {
 				 return true;
 			 }
 		 }
 		 return false;
+	 }
+	 public void setIsDead(boolean i)
+	 {
+		 this.isdead = i;
+	 }
+	 public boolean getIsDead()
+	 {
+		 return this.isdead;
+	 }
+	 public int getMaxTL()
+	 {
+		 return this.MAX_TIMELEFT;
 	 }
  }

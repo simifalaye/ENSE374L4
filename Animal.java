@@ -8,7 +8,7 @@ import java.util.*;
  public class Animal extends Organism{
 	 public Animal()
 	 {
-		 this.setTimeLeft(2);
+		 this.setTimeLeft(this.getMaxTL());
 		 this.setDistanceTraveled(0);
 	 }
  }

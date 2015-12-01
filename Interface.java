@@ -5,6 +5,7 @@
  */
 import java.util.*;
 import java.io.*;
+import java.lang.reflect.*;
 import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.Random;
@@ -16,26 +17,17 @@ import java.util.Random;
 	public String open = " ";
 	public int xpos = 0, ypos = 0, stch = 15;
 	public String bjch = "b", hkch = "h", mech = "m", rtch = "r", slch = "s", wfch = "w", drch = "d";
-	public String fxch = "f", crch = "c", grch = "g", gsch = "a", tsch = "t";
+	public String fxch = "f", crch = "c", grch = "g", gsch = "~", tsch = "t";
 	private Organism[][] map = new Organism[MAX_ROWS][MAX_COLUMNS];
-	int tsamnt = 500, gsamnt = 500, hkamnt = 250, bjamnt = 250, meamnt = 100, rtamnt = 100;
-	int slamnt = 100, wfamnt = 100, dramnt = 100, fxamnt = 100, cramnt = 250, gramnt = 250;
+	int tsamnt = 500, gsamnt = 500, hkamnt = 500, bjamnt = 500, meamnt = 500, rtamnt = 500;
+	int slamnt = 500, wfamnt = 500, dramnt = 500, fxamnt = 500, cramnt = 550, gramnt = 550;
 	private int xp = 0, yp = 0;
 	private int[] chkalldir = {99, 99, 99, 99};
 	private int countdir = 0;
+	private int grave = 300;
+	private int ate = 0;
+	boolean newday = false;
 
-	/*public Interface()
-	{
-		for(int i = 0; i < MAX_ROWS; i++)
-		{
-			for(int j = 0; j < MAX_COLUMNS; j++)
-			{
-				Organism A = new Organism();
-				this.map[i][j] = A;
-			}
-		}
-	}*/
-	
 	public void setMapPos(Organism o, int x, int y)
 	{
 		this.map[x][y] = o;
@@ -48,12 +40,12 @@ import java.util.Random;
 	
 	public void printWorld()
 	{
-		System.out.print("\033[31m+\033[0m");
+		System.out.print("\u001B[32m+\033[0m");
 		for(int i = 0; i < MAX_COLUMNS; i++)
 		{
 			System.out.print("\033[31m-\033[0m");
 		}
-		System.out.print("\033[31m+\033[0m\n");
+		System.out.print("\u001B[32m+\033[0m\n");
 		for(int i = 0; i < MAX_ROWS; i++)
 		{
 			System.out.print("\033[31m|\033[0m");
@@ -110,6 +102,10 @@ import java.util.Random;
 					{
 						System.out.print(tsch);
 					}
+					else
+					{
+						System.out.print(open);
+					}
 				}
 				else 
 				{
@@ -118,36 +114,62 @@ import java.util.Random;
 			}
 			System.out.print("\033[31m|\033[0m\n");
 		}
-		System.out.print("\033[31m+\033[0m");
+		System.out.print("\u001B[32m+\033[0m");
 		for(int i = 0; i < MAX_COLUMNS; i++)
 		{
 			System.out.print("\033[31m-\033[0m");
 		}
-		System.out.print("\033[31m+\033[0m\n");
+		System.out.print("\u001B[32m+\033[0m\n");
 	}
 	public void printLegend()
 	{
 		System.out.println("******************************************************************************");
 		System.out.println("\033[31mWelcome to my organism simulation\033[0m");
-		System.out.println("Bluejay          = ~");
-		System.out.println("Hawk             = ^");
-		System.out.println("Mouse            = n");
-		System.out.println("Rat              = >");
-		System.out.println("Squirrel         = \"");
-		System.out.println("Wolf             = w");
-		System.out.println("Deer             = ?");
-		System.out.println("Fox              = f");
-		System.out.println("Caterpillar      = ;");
-		System.out.println("Grasshopper      = #");
-		System.out.println("Grass            = x");
-		System.out.println("Trees and Shrubs = T");
+		System.out.println("Bluejay          = " + bjch);
+		System.out.println("Hawk             = " + hkch);
+		System.out.println("Mouse            = " + mech);
+		System.out.println("Rabbit           = " + rtch);
+		System.out.println("Squirrel         = " + slch);
+		System.out.println("Wolf             = " + wfch);
+		System.out.println("Deer             = " + drch);
+		System.out.println("Fox              = " + fxch);
+		System.out.println("Caterpillar      = " + crch);
+		System.out.println("Grasshopper      = " + grch);
+		System.out.println("Grass            = " + gsch);
+		System.out.println("Trees and Shrubs = " + tsch);
 		System.out.println("******************************************************************************");
 	}
 	/******************************************************************************/
 	public static void main(String[] args)
 	{
-		
 		Interface w = new Interface();
+		w.printLegend();
+		Scanner indata = new Scanner(System.in);
+		System.out.print("Choose Bluejay amount: ");
+		w.bjamnt = indata.nextInt();
+		System.out.print("Choose Hawk amount: ");
+		w.hkamnt = indata.nextInt();
+		System.out.print("Choose Mouse amount: ");
+		w.meamnt = indata.nextInt();
+		System.out.print("Choose Rabbit amount: ");
+		w.rtamnt = indata.nextInt();
+		System.out.print("Choose Squirrel amount: ");
+		w.slamnt = indata.nextInt();
+		System.out.print("Choose Wolf amount: ");
+		w.wfamnt = indata.nextInt();
+		System.out.print("Choose Deer amount: ");
+		w.dramnt = indata.nextInt();
+		System.out.print("Choose Fox amount: ");
+		w.fxamnt = indata.nextInt();
+		System.out.print("Choose Caterpillar amount: ");
+		w.cramnt = indata.nextInt();
+		System.out.print("Choose Grasshopper amount: ");
+		w.gramnt = indata.nextInt();
+		System.out.print("Choose Grass amount: ");
+		w.gsamnt = indata.nextInt();
+		System.out.print("Choose Trees and Shrubs amount: ");
+		w.tsamnt = indata.nextInt();
+		
 		Trees_Shrubs[] T = new Trees_Shrubs[w.tsamnt];
 		Grass[] A = new Grass[w.gsamnt];
 		Hawk[] H = new Hawk[w.hkamnt];
@@ -161,21 +183,45 @@ import java.util.Random;
 		Caterpillar[] C = new Caterpillar[w.cramnt];
 		Grasshopper[] G = new Grasshopper[w.gramnt];
 		
-		w.spawnOrganism(T, "Trees_Shrubs", w.tsamnt);
-		w.spawnOrganism(A, "Grass", w.gsamnt);
-		w.spawnOrganism(H, "Hawk", w.hkamnt);
-		w.spawnOrganism(B, "Bluejay", w.bjamnt);
-		w.spawnOrganism(M, "Mouse", w.meamnt);
-		w.spawnOrganism(R, "Rabbit", w.rtamnt);
-		w.spawnOrganism(S, "Squirrel", w.slamnt);
-		w.spawnOrganism(W, "Wolf", w.wfamnt);
-		w.spawnOrganism(D, "Deer", w.dramnt);
-		w.spawnOrganism(F, "Fox", w.fxamnt);
-		w.spawnOrganism(C, "Caterpillar", w.cramnt);
-		w.spawnOrganism(G, "Grasshopper", w.gramnt);
+		T = (Trees_Shrubs[])w.spawnOrganism(T, "Trees_Shrubs", w.tsamnt);
+		A = (Grass[])w.spawnOrganism(A, "Grass", w.gsamnt);
+		H = (Hawk[])w.spawnOrganism(H, "Hawk", w.hkamnt);
+		B = (Bluejay[])w.spawnOrganism(B, "Bluejay", w.bjamnt);
+		M = (Mouse[])w.spawnOrganism(M, "Mouse", w.meamnt);
+		R = (Rabbit[])w.spawnOrganism(R, "Rabbit", w.rtamnt);
+		S = (Squirrel[])w.spawnOrganism(S, "Squirrel", w.slamnt);
+		W = (Wolf[])w.spawnOrganism(W, "Wolf", w.wfamnt);
+		D = (Deer[])w.spawnOrganism(D, "Deer", w.dramnt);
+		F = (Fox[])w.spawnOrganism(F, "Fox", w.fxamnt);
+		C = (Caterpillar[])w.spawnOrganism(C, "Caterpillar", w.cramnt);
+		G = (Grasshopper[])w.spawnOrganism(G, "Grasshopper", w.gramnt);
 		
-		w.printLegend();
 		w.printWorld();
+		System.out.println("Proceed to next day (n)");
+		System.out.println("Quit (q)");
+		System.out.print("Choice: ");
+		String choice = indata.next();
+		while(!(choice.equals("q")))
+		{
+			if(choice.equals("n") || choice.equals("N"))
+			{
+				w.moveAnimals(H, B, M, R, S, W, D, F, C, G);
+				w.printWorld();
+			}
+			else if(choice.equals("q") || choice.equals("Q"))
+			{
+				break;
+			}
+			else
+			{
+				System.out.println("Incorrect choice. Try again: ");
+			}
+			w.newday = true;
+			System.out.println("Proceed to next day (n)");
+			System.out.println("Quit (q)");
+			System.out.print("Choice: ");
+			choice = indata.next();
+		}
 	}
 	/******************************************************************************/
 	public void findNextOpen()
@@ -186,14 +232,14 @@ import java.util.Random;
 			{
 				if(this.map[i][j] == null)
 				{
-					xpos = i;
-					ypos = j;
+					this.xpos = i;
+					this.ypos = j;
 					return;
 				}
 			}
 		}
-		xpos = 0;
-		ypos = 0;
+		this.xpos = 0;
+		this.ypos = 0;
 	}
 	public int getRandom(int max)
 	{
@@ -205,23 +251,23 @@ import java.util.Random;
 		int d = getRandom(4);
 		if(d == 0)
 		{
-			xp = x - 1;
-			yp = y;
+			this.xp = x - 1;
+			this.yp = y;
 		}
 		else if(d == 1)
 		{
-			xp = x + 1;
-			yp = y;
+			this.xp = x + 1;
+			this.yp = y;
 		}
 		else if(d == 2)
 		{
-			yp = y - 1;
-			xp = x;
+			this.yp = y - 1;
+			this.xp = x;
 		}
 		else if(d == 3)
 		{
-			yp =  y + 1;
-			xp = x;
+			this.yp =  y + 1;
+			this.xp = x;
 		}
 		return d;
 	}
@@ -229,14 +275,14 @@ import java.util.Random;
 	{
 		for(int i = 0; i < 4; i++)
 		{
-			if(chkalldir[i] == d)
+			if(this.chkalldir[i] == d)
 			{
 				return false;
 			}
 		}
-		chkalldir[countdir] = d;
-		countdir++;
-		if(countdir == 4)
+		this.chkalldir[countdir] = d;
+		this.countdir++;
+		if(this.countdir == 4)
 		{
 			return true;
 		}
@@ -244,7 +290,7 @@ import java.util.Random;
 	}
 	public boolean checkOOB(int x, int y)
 	{
-		if(x >= MAX_ROWS)
+		if(x >= this.MAX_ROWS)
 		{
 			return true;
 		}
@@ -252,7 +298,7 @@ import java.util.Random;
 		{
 			return true;
 		}
-		else if(y >= MAX_COLUMNS)
+		else if(y >= this.MAX_COLUMNS)
 		{
 			return true;
 		}
@@ -265,7 +311,16 @@ import java.util.Random;
 			return false;
 		}
 	}
-	public void spawnOrganism(Organism[] A, String animal, int amount)
+	public boolean chkOcc(int x, int y)
+	{
+		if(this.map[xp][yp] != null)
+		{
+			return true;
+		}
+		else 
+			return false;
+	}
+	public Organism[] spawnOrganism(Organism[] A, String animal, int amount)
 	{
 		int x = 0, y = 0;
 		int check = 0, check2 = 0;
@@ -290,12 +345,12 @@ import java.util.Random;
 			check2 = 0;
 			while(check == 0)
 			{
-				x = getRandom(MAX_COLUMNS);
-				y = getRandom(MAX_COLUMNS);
+				x = this.getRandom(MAX_ROWS);
+				y = this.getRandom(MAX_COLUMNS);
 				check2++;
 				if(check2 > stch)
 				{
-					findNextOpen();
+					this.findNextOpen();
 					x = xpos;
 					y = ypos;
 				}
@@ -322,37 +377,124 @@ import java.util.Random;
 				}
 			}
 		}
+		return (Organism[])A;
 	}
 	public void moveAnimal(Organism[] A, int amount)
 	{
 		int x, y, d, err;
+		boolean cm = false, et = false;
 		for(int i = 0; i < amount; i++)
 		{
+			et = false;
 			err = 0;
 			x = A[i].getX();
 			y = A[i].getY();
-			d = direction(x, y);
-			cantMove(d);
-			while(this.map[x][y] != null || this.checkOOB(x, y))
+			if(A[i].getTimeLeft() < 0 && A[i].getX() != this.grave)
 			{
-				d = direction(x, y);
-				if(cantMove(d))
-				{
-					err = 1;
-					break;
-				}
+				A[i].setIsDead(true);
+				A[i].setX(this.grave);
+				A[i].setY(this.grave);
+				System.out.println(A[i].getID() + " died.");
+				this.setMapPos(null, x, y);
 			}
-			if(err == 0)
+			else if(A[i].getIsDead() == false)
 			{
-				A[i].setX(xp);
-				A[i].setY(yp);
-				setMapPos(A[i], xp, yp);
+				d = this.direction(x, y);
+				cm = this.cantMove(d);
+				while(this.checkOOB(xp, yp))
+				{
+					if(cm == true)
+					{
+						err = 1;
+						break;
+					}
+					d = this.direction(x, y);
+					cm = this.cantMove(d);
+				}
+				if(err == 0)
+				{
+					if(chkOcc(xp, yp) == true)
+					{
+						this.eatIt(A[i], xp, yp);
+					}
+				}
+				if(err == 0 && this.ate == 0)
+				{
+					A[i].setX(this.xp);
+					A[i].setY(this.yp);
+					this.setMapPos((Organism)A[i], xp, yp);
+					this.setMapPos(null, x, y);
+					if(this.newday == true)
+					{
+						A[i].setTimeLeft(A[i].getTimeLeft() - 1);
+					}
+				}
+				else if(err == 0 && this.ate == 1)
+				{
+					A[i].setX(this.xp);
+					A[i].setY(this.yp);
+					this.setMapPos((Organism)A[i], xp, yp);
+					this.setMapPos(null, x, y);
+					A[i].setTimeLeft(A[i].getMaxTL());
+				}
+				else if(err == 0 && this.ate == 2)
+				{
+					A[i].setX(this.grave);
+					A[i].setY(this.grave);
+					this.setMapPos(null, x, y);
+				}
 				for(int j = 0; j < 4; j++)
 				{
-					chkalldir[j] = 99;
+					this.chkalldir[j] = 99;
 				}
-				countdir = 0;
+				this.countdir = 0;
+				this.ate = 0;
 			}
 		}
+	}
+	public void moveAnimals(Hawk[] H, Bluejay[] B, Mouse[] M, Rabbit[] R, Squirrel[] S, Wolf[] W, Deer[] D, Fox[] F, Caterpillar[] C, Grasshopper[] G)
+	{
+		for(int i = 0; i < H[0].getMaxTravelDistance(); i++)
+		{
+			moveAnimal(H, hkamnt);
+			moveAnimal(B, bjamnt);
+		}
+		for(int i = 0; i < M[0].getMaxTravelDistance(); i++)
+		{
+			moveAnimal(M, meamnt);
+			moveAnimal(R, rtamnt);
+			moveAnimal(S, slamnt);
+			moveAnimal(W, wfamnt);
+			moveAnimal(D, dramnt);
+			moveAnimal(F, fxamnt);
+		}
+		for(int i = 0; i < C[0].getMaxTravelDistance(); i++)
+		{
+			moveAnimal(C, cramnt);
+			moveAnimal(G, gramnt);
+		}
+		this.newday = false;
+	}
+	public boolean eatIt(Organism A, int x, int y)
+	{
+		if(A.canEat(this.map[x][y].getOrganism()) == true)
+		{
+			this.map[x][y].setIsDead(true);
+			this.map[x][y].setX(this.grave);
+			this.map[x][y].setY(this.grave);
+			this.ate = 1;
+			System.out.println(A.getID() + " ate " + this.map[x][y].getID());
+			return true;
+		}
+		else if(this.map[x][y].canEat(A.getOrganism()) == true)
+		{
+			A.setIsDead(true);
+			A.setX(this.grave);
+			A.setY(this.grave);
+			this.ate = 2;
+			System.out.println(this.map[x][y].getID() + " ate " + A.getID());
+			return true;
+		}
+		return false;
 	}
  }
